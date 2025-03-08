@@ -1,0 +1,85 @@
+# .NET Core specifika ignoreringar
+## Byggfiler
+bin/
+obj/
+out/
+
+## Visual Studio och Rider specifika filer
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# Konfigurationsfiler som kan innehålla känslig information
+appsettings.Development.json
+appsettings.Production.json
+appsettings.*.json
+!appsettings.json
+
+# Lokala secrets
+*.secret.json
+*/Properties/launchSettings.json
+**/secrets.json
+
+# Databasfiler
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# Entity Framework Migrations
+# Migrations-mappen behålls, men undvik temporära migrationsfiler
+Migrations/*.Designer.cs
+Migrations/*.tmp
+
+# Temporära filer
+*~
+*.swp
+*.swo
+*.[Cc]ache
+*.bak
+*.log
+.DS_Store
+Thumbs.db
+
+# Node/npm/yarn
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnp/
+.pnp.js
+
+# Test output
+TestResults/
+[Tt]est[Rr]esult*/
+coverage/
+*.coverage
+*.coveragexml
+
+# Byggscript-utdata
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Publiceringsprofiler
+**/Properties/PublishProfiles/
+*.pubxml
+*.pubxml.user
+
+# Azure dev-spaces
+.devspaces/
+
+# Docker-relaterade filer (men behåll Dockerfile och docker-compose.yml)
+.docker/
+docker-compose.override.yml
+
+# Lokala certifikat
+*.pfx
+*.key
+*.crt
+*.pem
