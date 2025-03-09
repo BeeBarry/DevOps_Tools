@@ -1,5 +1,9 @@
+using Devops_tools.Services;
+using Devops_tools.Services.Interfaces;
 using Devops_tools.Components;
 using Devops_tools.Data;
+using Devops_tools.Repositories;
+using Devops_tools.Repositories.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +48,15 @@ builder.Services.AddHttpClient();
 // Lägg till Memory Cache
 builder.Services.AddMemoryCache();
 
+// Repository registreringar
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IToolRepository, ToolRepository>();
+
+// Service registreringar
+builder.Services.AddScoped<IGitHubService, GitHubService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IToolService, ToolService>();
+
 var app = builder.Build();
 
 // Konfigurera HTTP request pipeline
@@ -59,6 +72,9 @@ app.UseStaticFiles();
 // Authentication & Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Middleware för anti-forgery (för vi har endpoints med dessa metadatas)
+app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
