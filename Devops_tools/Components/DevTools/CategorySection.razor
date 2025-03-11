@@ -1,0 +1,55 @@
+@using Devops_tools.Models.DTOs
+
+<div class="category-section mb-5">
+    <h2 class="category-title mb-4">@Category.Name</h2>
+    <p class="category-description mb-4">@Category.Description</p>
+
+    <div class="row g-4">
+        @if (Tools != null && Tools.Any())
+        {
+            @foreach (var tool in Tools)
+            {
+                <div class="col-12 col-md-6">
+                    <ToolCard Tool="tool" OnCardClick="@(() => HandleToolCardClick(tool))" />
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <p>Inga verktyg hittades för denna kategori.</p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (SelectedTool != null)
+{
+    <div class="expanded-overlay @(IsExpanded ? "show" : "")" @onclick="CloseExpandedCard">
+        <div class="expanded-container" @onclick:stopPropagation>
+            <ToolCardExpanded Tool="SelectedTool" OnClose="CloseExpandedCard" />
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public CategoryDto Category { get; set; } = new();
+
+    [Parameter]
+    public List<ToolDto> Tools { get; set; } = new();
+
+    private ToolDto? SelectedTool { get; set; }
+    private bool IsExpanded { get; set; }
+
+    private void HandleToolCardClick(ToolDto tool)
+    {
+        SelectedTool = tool;
+        IsExpanded = true;
+    }
+
+    private void CloseExpandedCard()
+    {
+        IsExpanded = false;
+    }
+}
