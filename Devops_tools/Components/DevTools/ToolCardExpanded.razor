@@ -1,11 +1,11 @@
 @using Devops_tools.Models.DTOs
 
-<div class="expanded-card">
-    <div class="expanded-card-header d-flex justify-content-between align-items-center">
+<div class="expanded-card p-4">
+    <div class="expanded-card-header d-flex justify-content-between align-items-center mb-4">
         <h2>@Tool.Name</h2>
         <button type="button" class="btn-close" @onclick="OnClose"></button>
     </div>
-
+    
     <div class="expanded-card-body">
         <div class="row">
             <div class="col-md-4 text-center">
@@ -13,12 +13,18 @@
                 {
                     <img src="@Tool.LogoUrl" alt="@Tool.LogoAltText" class="img-fluid expanded-logo mb-3" />
                 }
-
+                else
+                {
+                    <div class="placeholder-logo">
+                        <i class="bi bi-tools fs-1"></i>
+                    </div>
+                }
+                
                 <div class="tool-metadata">
                     <div class="category-badge mb-2">
                         <span class="badge bg-secondary">@Tool.CategoryName</span>
                     </div>
-
+                    
                     @if (Tool.GitHubStars.HasValue)
                     {
                         <div class="github-stars mb-2">
@@ -28,12 +34,12 @@
                     }
                 </div>
             </div>
-
+            
             <div class="col-md-8">
                 <div class="description mb-4">
                     <p>@Tool.Description</p>
                 </div>
-
+                
                 @if (Tool.Features != null && Tool.Features.Any())
                 {
                     <div class="features mb-4">
@@ -46,7 +52,7 @@
                         </ul>
                     </div>
                 }
-
+                
                 <div class="links">
                     @if (!string.IsNullOrEmpty(Tool.OfficialUrl))
                     {
@@ -54,7 +60,7 @@
                             <i class="bi bi-globe"></i> Officiell webbplats
                         </a>
                     }
-
+                    
                     @if (!string.IsNullOrEmpty(Tool.GitHubUrl))
                     {
                         <a href="@Tool.GitHubUrl" target="_blank" class="btn btn-dark">
@@ -70,7 +76,7 @@
 @code {
     [Parameter]
     public ToolDto Tool { get; set; } = new();
-
+    
     [Parameter]
     public EventCallback OnClose { get; set; }
 }
