@@ -49,3 +49,103 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+-----
+
+
+    /* Tool Card Styles */
+.tool-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tool-logo-container {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tool-logo {
+    max-height: 80px;
+    max-width: 100%;
+}
+
+.placeholder-logo {
+    font-size: 48px;
+    color: #6c757d;
+}
+
+/* Category Section Styles */
+.category-title {
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.category-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 3px;
+    background-color: #0d6efd;
+}
+
+/* Expanded Card Overlay */
+.expanded-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1050;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.expanded-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.expanded-container {
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.expanded-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.expanded-card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.expanded-card-body {
+    padding: 1.5rem;
+}
+
+.expanded-logo {
+    max-height: 120px;
+}
+
+.feature-list {
+    padding-left: 1.5rem;
+}
