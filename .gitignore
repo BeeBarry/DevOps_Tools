@@ -23,6 +23,11 @@ appsettings.*.json
 *.secret.json
 */Properties/launchSettings.json
 **/secrets.json
+.env                           
+*.env                          
+.env.local                     
+.env.development               
+.env.production                
 
 # Databasfiler
 *.mdf
@@ -32,7 +37,7 @@ appsettings.*.json
 *.sqlite3
 
 # Entity Framework Migrations
-# Migrations-mappen behålls, men undvik temporära migrationsfiler
+# Migrations-mappen behålls, men inte temporära migrationsfiler
 Migrations/*.Designer.cs
 Migrations/*.tmp
 
@@ -74,7 +79,7 @@ msbuild.wrn
 # Azure dev-spaces
 .devspaces/
 
-# Docker-relaterade filer (men behåll Dockerfile och docker-compose.yml)
+# Docker-relaterade filer (men inte Dockerfile och docker-compose.yml)
 .docker/
 docker-compose.override.yml
 
