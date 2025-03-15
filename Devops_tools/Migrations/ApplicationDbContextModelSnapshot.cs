@@ -120,7 +120,7 @@ namespace Devops_tools.Migrations
                             Features = "Containerisering;Image byggnad;Volume hantering;Nätverk",
                             GitHubUrl = "https://github.com/docker/docker-ce",
                             LogoAltText = "Docker logotyp",
-                            LogoUrl = "/images/docker-logo.png",
+                            LogoUrl = "https://api.iconify.design/skill-icons/docker.svg",
                             Name = "Docker",
                             OfficialUrl = "https://www.docker.com/"
                         },
@@ -135,6 +135,42 @@ namespace Devops_tools.Migrations
                             LogoUrl = "/images/podman-logo.png",
                             Name = "Podman",
                             OfficialUrl = "https://podman.io/"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 3,
+                            Description = "Kubernetes (K8s) är ett open-source system för automatisering av driftsättning, skalning och hantering av containeriserade applikationer. Det grupperar containrar till logiska enheter för enkel hantering och upptäckt. Kubernetes har sitt ursprung hos Google och är nu ett flaggskeppsprojekt inom Cloud Native Computing Foundation.",
+                            Features = "Container orkestrering;Auto-skalning;Service discovery;Load balancing;Självläkande system;Rolling updates;Konfigurationshantering;Storage orchestration",
+                            GitHubUrl = "https://github.com/kubernetes/kubernetes",
+                            LogoAltText = "Kubernetes logotyp - ett blått roder som symboliserar container-orkestrering",
+                            LogoUrl = "https://api.iconify.design/skill-icons/kubernetes.svg",
+                            Name = "Kubernetes",
+                            OfficialUrl = "https://kubernetes.io/"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            Description = "GitHub Actions är ett CI/CD-verktyg som låter dig automatisera dina bygg-, test- och driftsättningsprocesser direkt från GitHub. Med hjälp av events kan du automatiskt starta workflows baserade på aktiviteter i ditt repository, som push, pull request eller tidsschemanläggning.",
+                            Features = "Workflow automation;CI/CD;Event-baserad exekvering;GitHub integration;Matris-byggen;Parallell exekvering;Återanvändbara arbetsflöden;Artefakthantering",
+                            GitHubUrl = "https://github.com/features/actions",
+                            LogoAltText = "GitHub Actions logotyp - en pil som symboliserar automatiserade arbetsflöden",
+                            LogoUrl = "https://api.iconify.design/skill-icons/github-light.svg",
+                            Name = "GitHub Actions",
+                            OfficialUrl = "https://github.com/features/actions"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            Description = "GitLab CI/CD är en inbyggd funktion i GitLab-plattformen som tillhandahåller kontinuerlig integration och driftsättning. Den tillåter automatisering av bygg-, test- och driftsättningsprocesser via en YAML-konfigurationsfil i projektets repository.",
+                            Features = "Pipelinehantering;Container Registry;CI/CD som kod;Auto DevOps;Integrerad kodgranskning;Inbyggd säkerhetsscanning;Miljöhantering;Jobbparallellisering",
+                            GitHubUrl = "https://github.com/gitlabhq/gitlabhq",
+                            LogoAltText = "GitLab logotyp - en orange räv-symbol representerar GitLab-plattformen",
+                            LogoUrl = "https://about.gitlab.com/images/press/logo/svg/gitlab-logo-500.svg",
+                            Name = "GitLab CI/CD",
+                            OfficialUrl = "https://about.gitlab.com/"
                         });
                 });
 
