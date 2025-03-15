@@ -1,7 +1,9 @@
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Devops_tools.Services.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Devops_tools.Services;
@@ -28,6 +30,7 @@ public class GitHubService : IGitHubService
     {
         if (string.IsNullOrEmpty(repositoryUrl))
         {
+            _logger.LogWarning("Anrop till GetRepositoryStarsAsync med tom URL");
             return null;
         }
         
@@ -37,9 +40,11 @@ public class GitHubService : IGitHubService
             var (owner, repo) = ExtractOwnerAndRepo(repositoryUrl);
             if (owner == null || repo == null)
             {
-                _logger.LogWarning("Ogiltig GitHub URL: {Url}", repositoryUrl);
+                _logger.LogWarning("Ogiltig GitHub URL kunde inte extraheras: {Url}", repositoryUrl);
                 return null;
             }
+            
+            _logger.LogInformation("Försöker hämta stjärnor för {Owner}/{Repo} från {Url}", owner, repo, repositoryUrl);
             
             // Skapa cache-nyckel
             string cacheKey = $"github-stars-{owner}-{repo}";
@@ -47,25 +52,67 @@ public class GitHubService : IGitHubService
             // Försök hämta från cache först
             if (_cache.TryGetValue(cacheKey, out int cachedStars))
             {
+                _logger.LogInformation("Hittade cachad data för {Owner}/{Repo}: {Stars} stjärnor", owner, repo, cachedStars);
                 return cachedStars;
             }
             
-            // Anropa GitHub API
+            // Anropa GitHub API med bättre felhantering
             var apiUrl = $"https://api.github.com/repos/{owner}/{repo}";
-            var repoInfo = await _httpClient.GetFromJsonAsync<GitHubRepoInfo>(apiUrl);
+            _logger.LogInformation("Gör API-anrop till: {ApiUrl}", apiUrl);
             
-            if (repoInfo != null)
+            var response = await _httpClient.GetAsync(apiUrl);
+            _logger.LogInformation("API-svar status: {Status} för {Owner}/{Repo}", response.StatusCode, owner, repo);
+            
+            if (response.IsSuccessStatusCode)
             {
-                // Spara i cache
-                _cache.Set(cacheKey, repoInfo.StargazersCount, _cacheDuration);
-                return repoInfo.StargazersCount;
+                var responseContent = await response.Content.ReadAsStringAsync();
+                _logger.LogDebug("API-svar innehåll: {Content}", responseContent);
+                
+                try 
+                {
+                    var repoInfo = JsonSerializer.Deserialize<GitHubRepoInfo>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                    
+                    if (repoInfo != null)
+                    {
+                        _logger.LogInformation("Hämtade {Stars} stjärnor för {Owner}/{Repo}", repoInfo.StargazersCount, owner, repo);
+                        // Spara i cache
+                        _cache.Set(cacheKey, repoInfo.StargazersCount, _cacheDuration);
+                        return repoInfo.StargazersCount;
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Kunde inte deserialisera GitHub API-svar för {Owner}/{Repo}", owner, repo);
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogError(ex, "JSON-deserialiseringsfel för {Owner}/{Repo}: {Message}", owner, repo, ex.Message);
+                }
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning("GitHub API rate limit nådd för {Owner}/{Repo}: {Content}", owner, repo, responseContent);
+                
+                // Returnera eventuellt tidigare cachat värde om det finns
+                if (_cache.TryGetValue(cacheKey, out int oldCachedValue))
+                {
+                    _logger.LogInformation("Återanvänder gammal cachad data: {Stars} stjärnor", oldCachedValue);
+                    return oldCachedValue;
+                }
+            }
+            else
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                _logger.LogWarning("GitHub API-fel: {StatusCode} för {Owner}/{Repo}: {Content}", 
+                    response.StatusCode, owner, repo, responseContent);
             }
             
             return null;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Fel vid hämtning av GitHub-stjärnor för {Url}", repositoryUrl);
+            _logger.LogError(ex, "Oväntat fel vid hämtning av GitHub-stjärnor för {Url}: {Message}", repositoryUrl, ex.Message);
             return null;
         }
     }
@@ -77,12 +124,21 @@ public class GitHubService : IGitHubService
             return (null, null);
         }
         
+        _logger.LogDebug("Försöker extrahera owner/repo från URL: {Url}", repositoryUrl);
+        
+        // Speciell hantering för GitHub Actions och andra feature-URLs
+        if (repositoryUrl.Contains("github.com/features/"))
+        {
+            _logger.LogWarning("URL är en GitHub feature, inte ett repository: {Url}", repositoryUrl);
+            return (null, null);
+        }
+        
         // Matcha URL-mönster för GitHub repositories
         // Stödjer format som:
         // - https://github.com/owner/repo
         // - http://github.com/owner/repo
         // - github.com/owner/repo
-        var regex = new Regex(@"github\.com[/:](?<owner>[^/]+)/(?<repo>[^/]+)");
+        var regex = new Regex(@"github\.com[/:](?<owner>[^/]+)/(?<repo>[^/\.]+)");
         var match = regex.Match(repositoryUrl);
         
         if (match.Success)
@@ -96,15 +152,21 @@ public class GitHubService : IGitHubService
                 repo = repo.Substring(0, repo.Length - 4);
             }
             
+            _logger.LogDebug("Extraherade owner: {Owner}, repo: {Repo}", owner, repo);
             return (owner, repo);
         }
         
+        _logger.LogWarning("Kunde inte extrahera owner/repo från URL: {Url}", repositoryUrl);
         return (null, null);
     }
     
     // Privat klass för deserialisering av GitHub API-svar
     private class GitHubRepoInfo
     {
-        public int StargazersCount { get; set; }
+        // GitHub API använder snake_case, inte PascalCase
+        public int stargazers_count { get; set; }
+        
+        // Property för enklare tillgång i koden
+        public int StargazersCount => stargazers_count;
     }
 }
