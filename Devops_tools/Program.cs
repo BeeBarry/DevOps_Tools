@@ -86,8 +86,20 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationDbContext>();
-        context.Database.Migrate();
+        var logger = services.GetRequiredService<ILogger<Program>>();
         
+        // I utvecklingsmiljö, återställ databasen för att garantera korrekt seed-data
+        
+       /* if (app.Environment.IsDevelopment())
+        {
+            logger.LogInformation("Tar bort existerande databas...");
+            await context.Database.EnsureDeletedAsync();
+        } */
+        
+        logger.LogInformation("Applicerar migrationer...");
+        await context.Database.MigrateAsync();
+        
+        logger.LogInformation("Seedar data...");
         SeedData.Initialize(context);
         
         var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
@@ -128,7 +140,7 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while initializing the database.");
+        logger.LogError(ex, "Ett fel uppstod vid databasinitialiseringen.");
     }
 }
 
