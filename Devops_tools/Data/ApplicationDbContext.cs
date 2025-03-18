@@ -12,14 +12,33 @@ public class ApplicationDbContext : IdentityDbContext
     {
     }
     
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Tool> Tools { get; set; }
+    public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Tool> Tools { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         
-        // Minimal konfiguration för SQL Server Identity-kompatibilitet
+        // Grundläggande konfiguration - låt EF hantera ID-generering
+        modelBuilder.Entity<Category>(entity => 
+        {
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+        });
+            
+        modelBuilder.Entity<Tool>(entity =>
+        {
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd();
+        });
+        
+        // Definiera relationen mellan Tool och Category
+        modelBuilder.Entity<Tool>()
+            .HasOne(t => t.Category)
+            .WithMany(c => c.Tools)
+            .HasForeignKey(t => t.CategoryId);
+        
+        // Identity-konfiguration
         modelBuilder.Entity<IdentityUser>(entity => 
         {
             entity.Property(e => e.Id).HasMaxLength(450);
