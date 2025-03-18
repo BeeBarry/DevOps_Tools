@@ -1,5 +1,13 @@
+h1, h2, .category-title {
+    font-family: 'Ubuntu', sans-serif;
+}
+
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5; /* Beige färg */
 }
 
 a, .btn-link {
@@ -85,7 +93,7 @@ h1:focus {
 /* Category Section Styles */
 .category-title {
     position: relative;
-    padding-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
     color: #333;
@@ -94,11 +102,12 @@ h1:focus {
 .category-title::after {
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 0;
-    width: 70px;
+    width: 150px;
     height: 4px;
-    background-color: #0d6efd;
+    background-color: #FF7F3E;
     margin: 0 auto;
 }
 
