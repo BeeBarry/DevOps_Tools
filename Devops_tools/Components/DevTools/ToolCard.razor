@@ -1,11 +1,11 @@
 @using Devops_tools.Models.DTOs
 
 <div class="card tool-card h-100 shadow-sm">
-    <div class="card-body d-flex flex-column">
+    <div class="card-body d-flex flex-column text-center">
         <div class="tool-logo-container mb-3 text-center">
             @if (!string.IsNullOrEmpty(Tool.LogoUrl))
             {
-                <img src="@Tool.LogoUrl" alt="@Tool.LogoAltText" class="tool-logo img-fluid" />
+                <img src="@Tool.LogoUrl" alt="@Tool.LogoAltText" class="tool-logo" style="height: 100px; width: auto;" />
             }
             else
             {
@@ -19,14 +19,14 @@
 
         @if (Tool.GitHubStars.HasValue)
         {
-            <div class="mt-2 github-stars">
+            <div class="github-stars mb-3">
                 <i class="bi bi-star-fill text-warning"></i>
                 <span>@Tool.GitHubStars.Value.ToString("N0")</span>
             </div>
         }
 
-        <div class="mt-auto text-end">
-            <button class="btn btn-outline-primary btn-sm" @onclick="OnCardClick">Läs mer</button>
+        <div class="mt-auto">
+            <button class="btn btn-outline-primary btn-sm px-4" @onclick="OnCardClick">Läs mer</button>
         </div>
     </div>
 </div>
