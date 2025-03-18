@@ -1,15 +1,15 @@
 @using Devops_tools.Models.DTOs
 
 <div class="category-section mb-5">
-    <h2 class="category-title mb-4">@Category.Name</h2>
-    <p class="category-description mb-4">@Category.Description</p>
+    <h2 class="category-title text-center mb-4">@Category.Name</h2>
+    <p class="category-description text-center mx-auto mb-4">@Category.Description</p>
 
-    <div class="row g-4">
+    <div class="row g-4 justify-content-center">
         @if (Tools != null && Tools.Any())
         {
             @foreach (var tool in Tools)
             {
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-sm-6 col-md-4">
                     <ToolCard Tool="tool" OnCardClick="@(() => HandleToolCardClick(tool))" />
                 </div>
             }
