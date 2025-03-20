@@ -18,7 +18,7 @@
     }
     else
     {
-        @foreach (var category in categories)
+        @foreach (var category in sortedCategories)
         {
             <CategorySection Category="category" Tools="GetToolsForCategory(category.Id)" />
         }
@@ -28,6 +28,17 @@
 @code {
     private List<CategoryDto>? categories;
     private List<ToolDto>? tools;
+    private List<CategoryDto> sortedCategories = new();
+    
+    // Önskad ordning på kategorier
+    private readonly string[] categoryOrder = {
+        "Programming Languages",
+        "Cloud Platforms",
+        "CI/CD",
+        "Containers",
+        "Orchestration",
+        "Infrastructure as Code"
+    };
     
     // Inject services for data access
     [Inject]
@@ -41,6 +52,36 @@
         // Load data from services
         categories = (await CategoryService.GetAllCategoriesAsync()).ToList();
         tools = (await ToolService.GetAllToolsAsync()).ToList();
+        
+        // Sortera kategorier enligt önskad ordning
+        SortCategories();
+    }
+    
+    private void SortCategories()
+    {
+        if (categories == null) return;
+        
+        // Rensa och förbered sorterade kategorier
+        sortedCategories.Clear();
+        
+        // Lägg till kategorier i önskad ordning
+        foreach (var categoryName in categoryOrder)
+        {
+            var category = categories.FirstOrDefault(c => c.Name == categoryName);
+            if (category != null)
+            {
+                sortedCategories.Add(category);
+            }
+        }
+        
+        // Lägg till eventuella kategorier som inte finns i categoryOrder
+        foreach (var category in categories)
+        {
+            if (!sortedCategories.Any(c => c.Id == category.Id))
+            {
+                sortedCategories.Add(category);
+            }
+        }
     }
     
     private List<ToolDto> GetToolsForCategory(int categoryId)
