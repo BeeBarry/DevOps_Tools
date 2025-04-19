@@ -78,7 +78,7 @@ public static class SeedData
         UpsertTool(context, allCategories, 
             "Go", 
             "Programming Languages",
-            "Go är ett rakt-på-sak språk utvecklat av Google som kombinerar enkelhet med hög prestanda, vilket gjort det till ett förstahandsval för många containerbaserade DevOps-verktyg.",
+            "Go är ett rakt-på-sak-språk utvecklat av Google som kombinerar enkelhet med hög prestanda, vilket gjort det till favoriten för många containerbaserade DevOps-verktyg.",
             "https://api.iconify.design/skill-icons/golang.svg",
             "Go logotyp",
             "https://github.com/golang/go",
@@ -143,6 +143,17 @@ public static class SeedData
             "https://github.com/gitlabhq/gitlabhq",
             "https://about.gitlab.com/",
             "Komplett DevOps-plattform i en produkt;Auto DevOps för automatisk pipeline-konfiguration;Inbyggd container registry och artefakthantering;Integrerad kodgranskning och testrapportering;Avancerad visualisering av CI/CD-flöden");
+            
+        // Jenkins
+        UpsertTool(context, allCategories,
+            "Jenkins", 
+            "CI/CD",
+            "Jenkins är en av de äldsta och mest beprövade open-source CI/CD-lösningarna som ger dig fullständig kontroll över bygg-, test- och driftsättningsstegen via ett omfattande plugin-ekosystem.",
+            "https://api.iconify.design/devicon/jenkins.svg",
+            "Jenkins logotyp",
+            "https://github.com/jenkinsci/jenkins",
+            "https://www.jenkins.io/",
+            "Enormt ekosystem av plugins för olika integrationer;Distribuerade byggsystem med master/agent-arkitektur;Anpassningsbara pipelines med Jenkinsfile;Omfattande stöd för olika versionskontrollsystem;Stark community och dokumentation");
         
         // === Containers ===
         
@@ -167,6 +178,17 @@ public static class SeedData
             "https://github.com/containers/podman",
             "https://podman.io/",
             "Rootless containers för förbättrad säkerhet;Fungerar utan central daemon-process;Full kompatibilitet med Docker-kommandon;Native pod-support liknande Kubernetes;Integrering med systemd för bättre systemhantering");
+            
+        // CRI-O
+        UpsertTool(context, allCategories,
+            "CRI-O", 
+            "Containers",
+            "CRI-O är en lightweight container runtime specifikt utvecklad för Kubernetes, vilket gör den optimerad för prestanda och säkerhet i cloud-native-miljöer utan onödig komplexitet.",
+            "https://github.com/cri-o/cri-o/raw/main/logo/crio-logo.svg",
+            "CRI-O logotyp",
+            "https://github.com/cri-o/cri-o",
+            "https://cri-o.io/",
+            "OCI-kompatibel för alla standardiserade containerformat;Optimerad specifikt för Kubernetes-miljöer;Minimalistisk design utan onödiga funktioner;Starkare säkerhetsfokus än traditionella runtimes;Lägre resursanvändning i produktionsmiljöer");
         
         // === Orchestration ===
         
@@ -191,6 +213,17 @@ public static class SeedData
             "https://github.com/docker/docker-ce",
             "https://www.docker.com/",
             "Enkel implementation med Docker-kommandon;Inbyggt overlay-nätverk mellan noder;Integrerad service discovery;Rolling updates och health checks;Låg inlärningströskel för Docker-användare");
+            
+        // Nomad
+        UpsertTool(context, allCategories,
+            "Nomad", 
+            "Orchestration",
+            "Nomad är HashiCorps (skapare av Terraform) schemaläggnings- och orkestreringsplattform som är enklare att sätta upp än Kubernetes, men fortfarande erbjuder robust hantering av både containrar och andra arbetsbelastningar.",
+            "https://api.iconify.design/devicon/nomad.svg",
+            "Nomad logotyp",
+            "https://github.com/hashicorp/nomad",
+            "https://www.nomadproject.io/",
+            "Orkestrering av både containrar och traditionella applikationer;Enklare att sätta upp och underhålla än Kubernetes;Integrerar sömlöst med andra HashiCorp-produkter;Bra prestanda även i mindre miljöer;Skalbar från en enda laptop till tusentals maskiner");
         
         // === Infrastructure as Code ===
         
@@ -215,6 +248,17 @@ public static class SeedData
             "https://github.com/pulumi/pulumi",
             "https://www.pulumi.com/",
             "Stöd för flera språk (Python, TypeScript, Go, C#);Kraftfulla abstraktioner och komponenter;Typkontroll och felhantering i utvecklingsmiljön;Inbyggd testramverk för infrastrukturkod;Kompatibilitet med befintliga molnresurser");
+            
+        // Ansible
+        UpsertTool(context, allCategories,
+            "Ansible", 
+            "Infrastructure as Code",
+            "Ansible är ett agentlöst automationsverktyg som främst används för konfigurationshantering, men även kan fungera som ett alternativ till Terraform för infrastrukturhantering, särskilt i mindre miljöer där enkelhet prioriteras.",
+            "https://api.iconify.design/devicon/ansible.svg",
+            "Ansible logotyp",
+            "https://github.com/ansible/ansible",
+            "https://www.ansible.com/",
+            "Kräver inga agenter på målmaskinerna;YAML-baserade playbooks som är enkla att förstå;Skriptliknande arbetssätt som är säkert att köra flera gånger – samma kommando ger alltid samma resultat oavsett hur många gånger det körs;Omfattande modulbibliotek för olika plattformar;Integrerar bra med befintliga miljöer och arbetssätt");
         
         context.SaveChanges();
     }
