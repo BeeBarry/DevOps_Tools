@@ -40,34 +40,34 @@ stages:
       displayName: 'Installera Terraform'
       inputs:
         terraformVersion: '$(terraformVersion)'
-
-    task: TerraformTaskV3@3
-    displayName: 'Terraform Init'
-    inputs:
-      provider: 'azurerm'
-      command: 'init'
-      workingDirectory: '$(terraformWorkingDirectory)'
-      backendType: 'azurerm'
-      backendServiceArm: 'Azure-Connection'
-      backendAzureRmResourceGroupName: 'RG-barryolof'
-      backendAzureRmStorageAccountName: 'tfstatebarryolof'
-      backendAzureRmContainerName: 'tfstate'
-      backendAzureRmKey: 'devopstools.tfstate'
-
-    task: TerraformTaskV3@3
-    displayName: 'Terraform Plan'
-    inputs:
-      provider: 'azurerm'
-      command: 'plan'
-      workingDirectory: '$(terraformWorkingDirectory)'
-      environmentServiceNameAzureRM: 'Azure-Connection'
-      commandOptions: ''
-
-    task: TerraformTaskV3@3
-    displayName: 'Terraform Apply'
-    inputs:
-      provider: 'azurerm'
-      command: 'apply'
-      workingDirectory: '$(terraformWorkingDirectory)'
-      environmentServiceNameAzureRM: 'Azure-Connection'
-      commandOptions: '-auto-approve'
+    
+    - task: TerraformTaskV3@3
+      displayName: 'Terraform Init'
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(terraformWorkingDirectory)'
+        backendType: 'azurerm'
+        backendServiceArm: 'Azure-Connection'
+        backendAzureRmResourceGroupName: 'RG-barryolof'
+        backendAzureRmStorageAccountName: 'tfstatebarryolof'  
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'devopstools.tfstate'
+    
+    - task: TerraformTaskV3@3
+      displayName: 'Terraform Plan'
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(terraformWorkingDirectory)'
+        environmentServiceNameAzureRM: 'Azure-Connection'
+        commandOptions: ''
+    
+    - task: TerraformTaskV3@3
+      displayName: 'Terraform Apply'
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(terraformWorkingDirectory)'
+        environmentServiceNameAzureRM: 'Azure-Connection'
+        commandOptions: '-auto-approve'
