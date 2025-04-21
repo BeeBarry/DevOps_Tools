@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lägg till tjänster för Razor Pages och server-side Blazor
+// Lägg till tjänster för Razor Pages och server-side Blazor. Test
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
